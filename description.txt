@@ -1,0 +1,7 @@
+國泰集團的 Workshop 目前狀況報告：
+- 測試資料採用台灣近 5000 家的餐飲業資訊，包含：餐廳名稱、餐廳描述、地址等等
+- 主要體驗：
+  1. Auto-Embedding - 減少 RAG 資料準備的數據流程，由 Atlas 自動化處理向量
+  2. VoyageAI Shared Embedding Space - 資料採用 VoyageAI Text Standard 進行向量，體驗透過 VoyageAI Text Lite 模型轉換並查詢的結果，達到節費效果
+  3. Reranker - 透過 reranker 優化使用者查詢結果，體驗貼近使用者所需的資料回傳，進一步優化給 LLM 的數據正確性
+  4. Hybrid Search - 透過內建的 hybrid search 語法，體驗文字與向量搜尋的完美整合

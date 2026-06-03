@@ -1,0 +1,43 @@
+我要設計一個 workshop 用的系統，讓多個使用者可以將自己 MongoDB Atlas 的連線字串填入，由本系統預設的互動頁面提供呈現。
+此系統需要有以下功能：
+- [登入]，提供一個 text field 讓使用者輸入 secret code(文字)
+    - 使用者輸入的文字需由後端系統查詢本系統的 MongoDB Atlas 的 secret collection，比對語法：
+      db.secret.find_one({'code': 使用者輸入文字})
+    - 若查詢該 code 存在，則讓使用者進入[設定]頁面
+    - 若查詢該 code 不存在，則顯示錯誤訊息：該 secret code 不存在，請與顧問聯繫
+- [環境準備]，提供使用者準備 workshop 相關環境設定，需包含以下區塊，並引導使用者從[設定]>[資料導入]>[Index 檢查]完成環境設定
+    - [設定]，提供使用者輸入自己環境的相關資訊，包含：MongoDB Atlas URL 與 VoyageAI API Key，並可按下儲存按鈕
+        - 當使用者按下儲存按鈕，後端系統檢查該 MongoDB Atlas 連線是否可以成功
+        - 若可以連線成功，則將該連線字串與 VoyageAI API Key 儲存至使用者端瀏覽器 cookie 中，並用 base64 進行加密，並引導使用者可以進行[資料導入]區塊
+        - 若連線失敗，則顯示：使用者連線失敗，可能原因為
+            - 連線字串錯誤
+            - 密碼錯誤，若密碼包含符號，請先進行 URL Encoding 後重新輸入
+            - Atlas 網路設定請開放 0.0.0.0/0
+            - 請與顧問聯繫
+    - [資料導入]，根據使用者在[設定]區塊所填入的 MongoDB Atlas URL 資訊，進行資料匯入作業，並提供資料導入按鈕
+        - 當使用者按下資料導入後，後端系統將使用者傳入的 MongoDB Atlas URL 進行 base64 進行解密
+        - 後端系統根據解密後的 Atlas URL，將專案中的 restaurant.json 檔案的內容，寫入使用者的 Atlas 的 workshop.restaurant collection，並提供 progress bar 顯示導入進度
+            - 寫入完成後需檢查，restaurant collection 中的筆數是否為 4292 筆
+                - 若筆數不符合，先 drop workshop.restaurant collection 後，顯示：載入失敗，請使用者重新按下資料導入按鈕
+                - 若筆數相同，則顯示：載入成功，請開始進行相關 workshop 內容
+    - [Index 檢查]，協助使用者檢查以下資訊：
+        - 在 workshop.restaurant collection 中是否建立 restaurant_auto_index Vector Index
+        - 在 workshop.restaurant collection 中是否建立 restaurant_sindex Search Index
+- [Text & Vector Search] 頁面，主要提供使用者讀取 [環境設定] 頁面中的 MongoDB URL 與 VoyageAI API Key 進行查詢 workshop.restaurant collection 中的資料
+    Web 頁面上需包含以下元件：
+    - 輸入查詢語句的欄位
+    - 各種查詢方式的功能按鈕，包含：
+        - 關鍵字搜尋
+        - 向量搜尋
+            - 採用 voyage-4 model
+            - 採用 voyage-4-lite model
+        - [checkbox] Reranker，提供上述兩種查詢後是否啟動 reranker 功能
+            - 勾選，用 [環境設定] 提供的 VoyageAI API Key 呼叫 rerank-2.5
+    - 查詢後結果，包含：
+        - 原始 JSON Document
+        - 相關 Score
+        - 針對每一筆資料中的 location.coordinates array 套用 lattitude 與 longtitude 至 google map 中並顯示在該筆 JSON 的右邊
+
+Web 端採用 Next.js (React) 開發，後端採用 Python 開發 FastAPI
+請提供完整可執行的專案骨架:含前端 (Next.js 全部頁面/元件) 與後端 (FastAPI 全部路由)、設定檔、requirements/package.json,可直接跑起來
+Web 端頁面需套用 MongoDB 的風格

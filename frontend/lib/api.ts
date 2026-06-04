@@ -183,6 +183,8 @@ export interface SearchParams {
   mode: SearchMode;
   model?: string | null;
   use_reranker: boolean;
+  limit?: number | null;
+  num_candidates?: number | null;
 }
 
 // 一筆結果(已精簡為 name/description/add/location),額外帶分數

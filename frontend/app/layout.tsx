@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { I18nProvider } from "@/lib/i18n";
 
 export const metadata: Metadata = {
-  title: "MongoDB Workshop - 環境準備",
-  description: "Workshop 環境準備平台",
+  title: "MongoDB Workshop",
+  description: "Workshop Environment Setup Platform",
 };
 
 export default function RootLayout({
@@ -13,7 +14,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="zh-Hant">
-      <body>{children}</body>
+      <body>
+        <I18nProvider>{children}</I18nProvider>
+      </body>
     </html>
   );
 }

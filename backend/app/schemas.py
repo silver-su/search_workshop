@@ -79,6 +79,7 @@ class SearchRequest(BaseModel):
     model: str | None = Field(default=None, description="向量搜尋採用的模型名稱")
     use_reranker: bool = Field(default=False, description="是否啟用 VoyageAI rerank-2.5")
     limit: int | None = Field(default=None, description="回傳筆數")
+    num_candidates: int | None = Field(default=None, description="向量搜尋候選數(numCandidates)")
 
 
 class SearchResponse(BaseModel):

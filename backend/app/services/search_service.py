@@ -67,25 +67,29 @@ def keyword_search(
 
 
 def vector_search(
-    mongodb_url: str, query: str, limit: int
+    mongodb_url: str, query: str, limit: int, model: str | None = None,
+    num_candidates: int | None = None,
 ) -> tuple[list[dict], float]:
     """Atlas Vector Search ($vectorSearch) Auto-Embedding 搜尋。回傳 (結果, 耗時毫秒)。
 
-    傳入 query 字串,Atlas 以 restaurant_auto_index 上設定的 model 自動產生 embedding。
+    傳入 query 字串與 model 名稱,Atlas 以 queryEmbeddingOptions 指定的 VoyageAI model
+    自動產生 embedding 後執行向量搜尋。
     """
     client = MongoClient(mongodb_url, serverSelectionTimeoutMS=8000)
     try:
         coll = client[settings.workshop_db_name][settings.workshop_collection]
+        nc = num_candidates if num_candidates and num_candidates > 0 else max(limit * 10, 100)
+        vector_search_stage: dict = {
+            "index": settings.vector_index_name,
+            "path": settings.vector_search_path,
+            "query": query,
+            "limit": limit,
+            "numCandidates": nc,
+        }
+        if model:
+            vector_search_stage["model"] = model
         pipeline = [
-            {
-                "$vectorSearch": {
-                    "index": settings.vector_index_name,
-                    "path": settings.vector_search_path,
-                    "query": query,
-                    "limit": limit,
-                    "numCandidates": max(limit * 10, 100),
-                }
-            },
+            {"$vectorSearch": vector_search_stage},
             {"$addFields": {"_score": {"$meta": "vectorSearchScore"}}},
         ]
         start = time.perf_counter()
@@ -133,7 +137,8 @@ def _parse_hybrid_score_details(details: Any) -> dict:
 
 
 def hybrid_search(
-    mongodb_url: str, query: str, limit: int
+    mongodb_url: str, query: str, limit: int, model: str | None = None,
+    num_candidates: int | None = None,
 ) -> tuple[list[dict], float]:
     """Hybrid Search:用 $rankFusion 同時執行 Text Search 與 Vector Search。
 
@@ -144,16 +149,18 @@ def hybrid_search(
     try:
         coll = client[settings.workshop_db_name][settings.workshop_collection]
 
+        nc = num_candidates if num_candidates and num_candidates > 0 else max(limit * 10, 100)
+        vector_search_stage: dict = {
+            "index": settings.vector_index_name,
+            "path": settings.vector_search_path,
+            "query": query,
+            "limit": limit,
+            "numCandidates": nc,
+        }
+        if model:
+            vector_search_stage["model"] = model
         vector_pipeline = [
-            {
-                "$vectorSearch": {
-                    "index": settings.vector_index_name,
-                    "path": settings.vector_search_path,
-                    "query": query,
-                    "limit": limit,
-                    "numCandidates": max(limit * 10, 100),
-                }
-            }
+            {"$vectorSearch": vector_search_stage}
         ]
         text_pipeline = [
             {
@@ -279,10 +286,14 @@ def run_search(
     mode: str,
     use_reranker: bool,
     limit: int | None = None,
+    model: str | None = None,
+    num_candidates: int | None = None,
 ) -> dict:
     """統一入口:依 mode 執行搜尋,並視需要套用 reranker。
 
     mode: "keyword" | "vector" | "hybrid"
+    model: VoyageAI embedding model 名稱(向量搜尋時透過 queryEmbeddingOptions 指定)
+    num_candidates: 向量搜尋候選數,None 時自動計算
     回傳 {"mode", "reranked", "results": [...], "timings": {...}}
     """
     lim = limit or settings.search_limit
@@ -292,9 +303,9 @@ def run_search(
         if mode == "keyword":
             results, search_ms = keyword_search(mongodb_url, query, lim)
         elif mode == "vector":
-            results, search_ms = vector_search(mongodb_url, query, lim)
+            results, search_ms = vector_search(mongodb_url, query, lim, model=model, num_candidates=num_candidates)
         elif mode == "hybrid":
-            results, search_ms = hybrid_search(mongodb_url, query, lim)
+            results, search_ms = hybrid_search(mongodb_url, query, lim, model=model, num_candidates=num_candidates)
         else:
             return {"ok": False, "message": f"未知的搜尋模式: {mode}"}
     except PyMongoError as exc:

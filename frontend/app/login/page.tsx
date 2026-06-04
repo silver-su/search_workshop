@@ -4,9 +4,11 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { apiLogin } from "@/lib/api";
 import { COOKIE_KEYS, setCookie } from "@/lib/cookies";
+import { useLocale, LOCALES } from "@/lib/i18n";
 
 export default function LoginPage() {
   const router = useRouter();
+  const { t, locale, setLocale } = useLocale();
   const [code, setCode] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -15,7 +17,7 @@ export default function LoginPage() {
     e.preventDefault();
     setError("");
     if (!code.trim()) {
-      setError("請輸入 secret code");
+      setError(t.login.errorEmpty);
       return;
     }
     setLoading(true);
@@ -24,7 +26,6 @@ export default function LoginPage() {
 
     if (result.ok) {
       setCookie(COOKIE_KEYS.authed, "1");
-      // 記錄 secret code,後續每次 API 呼叫都會帶上並由後端重新驗證
       setCookie(COOKIE_KEYS.secretCode, code.trim());
       router.push("/setup");
     } else {
@@ -35,26 +36,40 @@ export default function LoginPage() {
   return (
     <div className="login-wrap">
       <div className="login-card">
+        {/* 語言切換 */}
+        <div className="login-lang-switcher">
+          {LOCALES.map((l) => (
+            <button
+              key={l.value}
+              className={`lang-btn-login${locale === l.value ? " active" : ""}`}
+              onClick={() => setLocale(l.value)}
+              aria-pressed={locale === l.value}
+            >
+              {l.label}
+            </button>
+          ))}
+        </div>
+
         <span className="leaf">&#127807;</span>
-        <h1>Workshop 登入</h1>
-        <p className="sub">請輸入顧問提供的 secret code</p>
+        <h1>{t.login.title}</h1>
+        <p className="sub">{t.login.subtitle}</p>
 
         {error && <div className="alert error">{error}</div>}
 
         <form onSubmit={handleSubmit}>
           <div className="field">
-            <label htmlFor="code">Secret Code</label>
+            <label htmlFor="code">{t.login.codeLabel}</label>
             <input
               id="code"
               type="text"
               value={code}
               onChange={(e) => setCode(e.target.value)}
-              placeholder="請輸入 secret code"
+              placeholder={t.login.codePlaceholder}
               autoFocus
             />
           </div>
           <button className="btn full" type="submit" disabled={loading}>
-            {loading ? <span className="spinner" /> : "登入"}
+            {loading ? <span className="spinner" /> : t.login.submit}
           </button>
         </form>
       </div>

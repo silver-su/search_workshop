@@ -48,8 +48,10 @@ def search(
         voyage_api_key=voyage_api_key,
         query=query,
         mode=payload.mode,
+        model=payload.model,
         use_reranker=payload.use_reranker,
         limit=payload.limit,
+        num_candidates=payload.num_candidates,
     )
 
     if not result.get("ok"):

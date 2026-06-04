@@ -1,0 +1,104 @@
+[
+    {
+        "name": "VIBE Bistro",
+        "description": "Mod-Singaporean Cuisine, bringing nostalgic flavors with modern recipes. Nestled in the heart of Singapore, VIBE is renowned for its vibrant Singaporean ambiance and rich flavors. Our chefs expertly curate a blend of light and hearty meals, presenting a fusion of contemporary dishes and reinterpreted classics. From succulent steaks to tantalizing seafood, our menu boasts an extensive selection to satisfy your every craving. Vegetarian options are also available, and our food ingredients are sustainably sourced. At VIBE, we've mastered crafting unforgettable moments. With a delightful mix of outdoor and indoor seating, there's a space to suit every mood.",
+        "add": "1 Raffles Pl #01-03/04/05/06, Singapore, Singapore",
+        "zipcode": "048616",
+        "region": "Singapore",
+        "town": "Singapore",
+        "tel": "+65 9835 8897",
+        "opentime": "Monday - Saturday : 11:30am - 02:00pm, 05:00pm - 09:00pm Sunday : Closed",
+        "location": {
+            "type": "Point",
+            "coordinates": [
+                103.8511593,
+                1.2843147
+            ]
+        }
+    },
+    {
+        "name": "The Vermilion House",
+        "description": "The Vermilion House is a modern Mediterranean restaurant nestled in Marina Square, Singapore. We serve handcrafted Italian dishes, premium steaks, fresh seafood, and award-winning wines — all in a warm, family-friendly setting by the waterfront. Whether it’s a romantic dinner or a casual gathering, we make every meal feel special.",
+        "add": "6 Raffles Blvd, #02-03/04, Singapore, 39594, Singapore",
+        "zipcode": "39594",
+        "region": "Singapore",
+        "town": "Singapore",
+        "tel": "+6588022520",
+        "opentime": "",
+        "location": {
+            "type": "Point",
+            "coordinates": [
+                103.8563859,
+                1.2913778
+            ]
+        }
+    },
+    {
+        "name": "T 中目黒店 T nakameguro",
+        "description": "Ranked No.5 in the World’s Best Steak Restaurants Top 20. Experience tableside carving of rare female Omi Wagyu T-bone, paired with seasonal seafood and vegetables.",
+        "add": "東京都目黒区上目黒2-37-12 コンフォート中目黒 1f, Tokyo, 153-0051, Japan",
+        "zipcode": "153-0051",
+        "region": "Japan",
+        "town": "Tokyo",
+        "tel": "03-6303-0849",
+        "opentime": "Daily 12:00 pm–2:30 pm ; Daily 5:30 pm–11:30 pm",
+        "location": {
+            "type": "Point",
+            "coordinates": [
+                139.6962627,
+                35.6411282
+            ]
+        }
+    },
+    {
+        "name": "Zuma Hong Kong",
+        "description": "Contemporary Japanese dining experience. Zuma is located in one of the city's most prestigious retail locations, The Landmark, home to one of the highest concentrations of luxury brands in Hong Kong. Offering contemporary Japanese cuisine in the heart of the Central Business District, our beautifully designed restaurant showcases an iconic spiral staircase that elegantly leads guests from the restaurant up to the vibrant lounge and bar, with weekly live DJs and musicians.",
+        "add": "15 Queen's Road Central, Level 5&6 Landmark Atrium, Hong Kong Island, 00000, Hong Kong",
+        "zipcode": "00000",
+        "region": "Hong Kong Island",
+        "town": "Level 5&6 Landmark Atrium",
+        "tel": "3657 6388",
+        "opentime": "Weekend Brunch ; Sat, Sun 11:00 am–11:45 am ; Sat, Sun 1:45 pm–2:30 pm ; Lunch ; Mon–Fri 12:00 pm–2:30 pm ; Dinner ; Mon–Fri 6:00 pm–10:15 pm ; Sat, Sun 7:00 pm–10:15 pm ; Yashoku Night Brunch ; Thu 7:30 pm–8:00 pm ; Fri, Sat 8:00 pm–8:30 pm",
+        "location": {
+            "type": "Point",
+            "coordinates": [
+                114.1578643,
+                22.2805197
+            ]
+        }
+    },
+    {
+        "name": "Paris Bar",
+        "description": "Paris Bar is an iconic French brasserie nestled within the Le Meridien hotel near Carnegie Hall and Central Park. We serve traditional French fare from breakfast through supper every day, with brunch available on weekends. Known for its lively ambiance, warm service, and soulful cuisine, the menu features fresh seafood and shellfish as well as signature French dishes such as Beef Bourguignon and Bouillabaisse.",
+        "add": "120 W 57th St, New York, NY, 10019, United States",
+        "zipcode": "10019",
+        "region": "NY",
+        "town": "New York",
+        "tel": "(212) 581-8900",
+        "opentime": "Mon–Sat 7:00 am–11:00 pm ; Sun 7:00 am–10:00 pm",
+        "location": {
+            "type": "Point",
+            "coordinates": [
+                -73.9784575,
+                40.7645242
+            ]
+        }
+    },
+    {
+        "name": "Hav & Mar",
+        "description": "Hav & Mar is a vibrant seafood house from Chef Marcus Samuelsson located in the renowned arts district of Chelsea, NYC. The stunning dining room and dazzling bar, a mix of contemporary and classical design, features original work by award-winning artist Derrick Adams. Chef Samuelsson and Executive Chef Fariyal Abdullahi's energetic and globally inspired menu focuses on thoughtfully sourced seafood and seasonal greenmarket produce.",
+        "add": "245 11th Ave, New York, 10001, United States",
+        "zipcode": "10001",
+        "region": "United States",
+        "town": "New York",
+        "tel": "2123288041",
+        "opentime": "",
+        "location": {
+            "type": "Point",
+            "coordinates": [
+                -74.005733,
+                40.7509642
+            ]
+        }
+    }
+]

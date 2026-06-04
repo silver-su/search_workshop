@@ -4,30 +4,27 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { COOKIE_KEYS, getCookie } from "@/lib/cookies";
-
-const MENU: {
-  href: string;
-  label: string;
-  icon: string;
-  requireEnvReady?: boolean;
-}[] = [
-  { href: "/setup", label: "環境設定", icon: "\u2699\uFE0F" },
-  {
-    href: "/demo",
-    label: "Text & Vector Search Demo",
-    icon: "\u{1F50E}",
-    requireEnvReady: true,
-  },
-];
+import { useLocale } from "@/lib/i18n";
 
 export default function Sidebar() {
   const pathname = usePathname();
   const [envReady, setEnvReady] = useState(false);
+  const { t } = useLocale();
 
-  // 隨路由變化重新檢查環境是否就緒(完成設定後切換頁面即更新)
+  // 隨路由變化重新檢查環境是否就緒
   useEffect(() => {
     setEnvReady(getCookie(COOKIE_KEYS.envReady) === "1");
   }, [pathname]);
+
+  const MENU = [
+    { href: "/setup", label: t.sidebar.setup, icon: "\u2699\uFE0F" },
+    {
+      href: "/demo",
+      label: t.sidebar.demo,
+      icon: "\u{1F50E}",
+      requireEnvReady: true,
+    },
+  ];
 
   return (
     <aside className="sidebar">
@@ -42,7 +39,7 @@ export default function Sidebar() {
               <span
                 key={item.href}
                 className="sidebar-link locked"
-                title="請先完成「環境設定」"
+                title={t.sidebar.lockedTitle}
                 aria-disabled="true"
               >
                 <span className="sidebar-icon">{item.icon}</span>

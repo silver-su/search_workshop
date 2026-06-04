@@ -1,12 +1,8 @@
 "use client";
 
-export type StepKey = "setup" | "import" | "index";
+import { useLocale } from "@/lib/i18n";
 
-const STEPS: { key: StepKey; label: string }[] = [
-  { key: "setup", label: "設定" },
-  { key: "import", label: "資料導入" },
-  { key: "index", label: "Index 檢查" },
-];
+export type StepKey = "setup" | "import" | "index";
 
 export default function Stepper({
   current,
@@ -15,14 +11,20 @@ export default function Stepper({
   current: StepKey;
   completed: Record<StepKey, boolean>;
 }) {
+  const { t } = useLocale();
+
+  const STEPS: { key: StepKey; label: string }[] = [
+    { key: "setup", label: t.stepper.setup },
+    { key: "import", label: t.stepper.import },
+    { key: "index", label: t.stepper.index },
+  ];
+
   return (
     <div className="stepper">
       {STEPS.map((s, i) => {
         const isActive = s.key === current;
         const isDone = completed[s.key];
-        const cls = `step${isActive ? " active" : ""}${
-          isDone ? " done" : ""
-        }`;
+        const cls = `step${isActive ? " active" : ""}${isDone ? " done" : ""}`;
         return (
           <div key={s.key} style={{ display: "contents" }}>
             <div className={cls}>
